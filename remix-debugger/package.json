@@ -1,5 +1,5 @@
 {
-  "name": "remix-debugger",
+  "name": "@shyftnetwork/shyft_remix-debugger",
   "version": "0.1.0",
   "description": "Ethereum IDE and tools for the web",
   "contributors": [
@@ -27,19 +27,19 @@
     "clipboard-copy": "^1.2.0",
     "csjs-inject": "^1.0.1",
     "ethereum-common": "0.0.18",
-    "ethereumjs-block": "^1.2.2",
+    "@shyftnetwork/shyft_ethereumjs-block": "^1.2.2",
     "ethereumjs-tx": "^1.1.1",
     "ethereumjs-util": "^4.5.0",
-    "ethereumjs-vm": "2.3.1",
+    "@shyftnetwork/shyft_ethereumjs-vm": "2.3.7",
     "fast-async": "^6.1.2",
     "http-server": "^0.9.0",
     "nightwatch": "^0.9.5",
     "notify-error": "^1.2.0",
     "npm-run-all": "^4.1.2",
     "onchange": "^3.3.0",
-    "remix-core": "latest",
-    "remix-lib": "latest",
-    "remix-solidity": "latest",
+    "@shyftnetwork/shyft_remix-core": "latest",
+    "@shyftnetwork/shyft_remix-lib": "latest",
+    "@shyftnetwork/shyft_remix-solidity": "latest",
     "selenium-standalone": "^6.0.1",
     "solc": "^0.4.13",
     "standard": "^7.0.1",
@@ -75,14 +75,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ethereum/remix.git"
+    "url": "git+https://github.com/shyftnetwork/shyft_remix.git"
   },
   "author": "cpp-ethereum team",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ethereum/remix/issues"
+    "url": "https://github.com/shyftnetwork/shyft_remix/issues"
   },
-  "homepage": "https://github.com/ethereum/remix#readme",
+  "homepage": "https://github.com/shyftnetwork/shyft_remix#readme",
   "standard": {
     "ignore": [
       "node_modules/*",

@@ -17,17 +17,17 @@ module.exports = {
 
   'vmdebugger': function (browser) {
     loadTraceNotFound(browser)
-    .click('#unload')
+      .click('#unload')
     loadTrace(browser)
-    .click('#unload')
+      .click('#unload')
     panels(browser)
-    .click('#unload')
+      .click('#unload')
     slider(browser)
-    .click('#unload')
+      .click('#unload')
     stepping(browser)
-    .click('#unload')
+      .click('#unload')
     stepdetail(browser)
-    .end()
+      .end()
   },
 
   tearDown: sauce

@@ -1,9 +1,9 @@
 'use strict'
 var DropdownPanel = require('./DropdownPanel')
-var remixSolidity = require('remix-solidity')
+var remixSolidity = require('@shyftnetwork/shyft_remix-solidity')
 var stateDecoder = remixSolidity.stateDecoder
 var solidityTypeFormatter = require('./SolidityTypeFormatter')
-var remixCore = require('remix-core')
+var remixCore = require('@shyftnetwork/shyft_remix-core')
 var StorageViewer = remixCore.storage.StorageViewer
 var yo = require('yo-yo')
 

@@ -1,6 +1,6 @@
 'use strict'
 var DropdownPanel = require('./DropdownPanel')
-var remixCore = require('remix-core')
+var remixCore = require('@shyftnetwork/shyft_remix-core')
 var StorageViewer = remixCore.storage.StorageViewer
 var yo = require('yo-yo')
 

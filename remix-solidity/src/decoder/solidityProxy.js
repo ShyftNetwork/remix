@@ -1,5 +1,5 @@
 'use strict'
-var remixLib = require('remix-lib')
+var remixLib = require('@shyftnetwork/shyft_remix-lib')
 var traceHelper = remixLib.helpers.trace
 var stateDecoder = require('./stateDecoder')
 var astHelper = require('./astHelper')

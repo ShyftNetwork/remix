@@ -1,14 +1,13 @@
 'use strict'
 var DropdownPanel = require('./DropdownPanel')
-var remixSolidity = require('remix-solidity')
+var remixSolidity = require('@shyftnetwork/shyft_remix-solidity')
 var localDecoder = remixSolidity.localDecoder
 var solidityTypeFormatter = require('./SolidityTypeFormatter')
-var remixCore = require('remix-core')
+var remixCore = require('@shyftnetwork/shyft_remix-core')
 var StorageViewer = remixCore.storage.StorageViewer
 var yo = require('yo-yo')
 
 class SolidityLocals {
-
   constructor (_parent, _traceManager, _internalTreeCall) {
     this.parent = _parent
     this.internalTreeCall = _internalTreeCall
@@ -53,28 +52,28 @@ function decode (self, sourceLocation) {
     self.traceManager.getStackAt,
     self.traceManager.getMemoryAt,
     self.traceManager.getCurrentCalledAddressAt],
-    self.parent.currentStepIndex,
-    (error, result) => {
-      if (!error) {
-        var stack = result[0].value
-        var memory = result[1].value
-        try {
-          var storageViewer = new StorageViewer({
-            stepIndex: self.parent.currentStepIndex,
-            tx: self.parent.tx,
-            address: result[2].value
-          }, self.storageResolver, self.traceManager)
-          localDecoder.solidityLocals(self.parent.currentStepIndex, self.internalTreeCall, stack, memory, storageViewer, sourceLocation).then((locals) => {
-            if (!locals.error) {
-              self.basicPanel.update(locals)
-            }
-          })
-        } catch (e) {
-          self.basicPanel.setMessage(e.message)
-        }
-      } else {
-        console.log(error)
+  self.parent.currentStepIndex,
+  (error, result) => {
+    if (!error) {
+      var stack = result[0].value
+      var memory = result[1].value
+      try {
+        var storageViewer = new StorageViewer({
+          stepIndex: self.parent.currentStepIndex,
+          tx: self.parent.tx,
+          address: result[2].value
+        }, self.storageResolver, self.traceManager)
+        localDecoder.solidityLocals(self.parent.currentStepIndex, self.internalTreeCall, stack, memory, storageViewer, sourceLocation).then((locals) => {
+          if (!locals.error) {
+            self.basicPanel.update(locals)
+          }
+        })
+      } catch (e) {
+        self.basicPanel.setMessage(e.message)
       }
-    })
+    } else {
+      console.log(error)
+    }
+  })
 }
 module.exports = SolidityLocals

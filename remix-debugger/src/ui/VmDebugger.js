@@ -10,7 +10,7 @@ var StepDetail = require('./StepDetail')
 var DropdownPanel = require('./DropdownPanel')
 var SolidityState = require('./SolidityState')
 var SolidityLocals = require('./SolidityLocals')
-var remixCore = require('remix-core')
+var remixCore = require('@shyftnetwork/shyft_remix-core')
 var StorageResolver = remixCore.storage.StorageResolver
 var yo = require('yo-yo')
 

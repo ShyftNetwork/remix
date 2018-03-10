@@ -1,5 +1,5 @@
 var test = require('tape')
-var remixLib = require('remix-lib')
+var remixLib = require('@shyftnetwork/shyft_remix-lib')
 
 var StatRunner = require('../../src/analysis/staticAnalysisRunner')
 var compilerInput = remixLib.helpers.compiler.compilerInput

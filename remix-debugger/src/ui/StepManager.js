@@ -1,7 +1,7 @@
 'use strict'
 var ButtonNavigator = require('./ButtonNavigator')
 var Slider = require('./Slider')
-var remixLib = require('remix-lib')
+var remixLib = require('@shyftnetwork/shyft_remix-lib')
 var EventManager = remixLib.EventManager
 var yo = require('yo-yo')
 var util = remixLib.util
@@ -88,7 +88,7 @@ StepManager.prototype.resolveToReducedTrace = function (value, incr) {
 
 StepManager.prototype.render = function () {
   return (
-  yo`<div>
+    yo`<div>
         ${this.slider.render()}
         ${this.buttonNavigator.render()}
       </div>`

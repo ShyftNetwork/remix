@@ -1,5 +1,5 @@
 {
-  "name": "remix-solidity",
+  "name": "@shyftnetwork/shyft_remix-solidity",
   "version": "0.0.8",
   "description": "Ethereum IDE and tools for the web",
   "contributors": [
@@ -19,10 +19,11 @@
     "babel-eslint": "^7.1.1",
     "babelify": "^7.3.0",
     "ethereumjs-util": "^4.5.0",
-    "ethereumjs-vm": "2.3.1",
+    "@shyftnetwork/shyft_ethereumjs-vm": "2.3.7",
+    "@shyftnetwork/shyft_ethereumjs-block": "1.7.1",
     "fast-async": "^6.1.2",
-    "remix-core": "latest",
-    "remix-lib": "latest",
+    "@shyftnetwork/shyft_remix-core": "latest",
+    "@shyftnetwork/shyft_remix-lib": "latest",
     "webworkify": "^1.2.1",
     "solc": "https://github.com/ethereum/solc-js",
     "npm-run-all": "^4.0.2",
@@ -44,14 +45,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ethereum/remix.git"
+    "url": "git+https://github.com/shyftnetwork/shyft_remix.git"
   },
   "author": "cpp-ethereum team",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ethereum/remix/issues"
+    "url": "https://github.com/shyftnetwork/shyft_remix/issues"
   },
-  "homepage": "https://github.com/ethereum/remix#readme",
+  "homepage": "https://github.com/shyftnetwork/shyft_remix#readme",
   "browserify": {
     "transform": [
       [

@@ -1,6 +1,6 @@
 'use strict'
 var tape = require('tape')
-var remixLib = require('remix-lib')
+var remixLib = require('@shyftnetwork/shyft_remix-lib')
 var Web3Providers = remixLib.vm.Web3Providers
 var TraceManager = require('../src/trace/traceManager')
 var CodeManager = require('../src/code/codeManager')

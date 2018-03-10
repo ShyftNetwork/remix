@@ -1,7 +1,7 @@
 'use strict'
 var style = require('./styles/basicStyles')
 var yo = require('yo-yo')
-var remixLib = require('remix-lib')
+var remixLib = require('@shyftnetwork/shyft_remix-lib')
 var DropdownPanel = require('./DropdownPanel')
 var EventManager = remixLib.EventManager
 var csjs = require('csjs-inject')

@@ -3,7 +3,7 @@ var tape = require('tape')
 var compiler = require('solc')
 var stateDecoder = require('../../src/decoder/stateDecoder')
 var MockStorageResolver = require('./mockStorageResolver')
-var remixLib = require('remix-lib')
+var remixLib = require('@shyftnetwork/shyft_remix-lib')
 var compilerInput = remixLib.helpers.compiler.compilerInput
 var testMappingStorage = require('./stateTests/mapping')
 

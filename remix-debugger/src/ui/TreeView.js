@@ -28,7 +28,7 @@ var css = csjs`
   }
 `
 
-var remixLib = require('remix-lib')
+var remixLib = require('@shyftnetwork/shyft_remix-lib')
 var EventManager = remixLib.EventManager
 
 /**
@@ -37,7 +37,6 @@ var EventManager = remixLib.EventManager
  *  - trigger `nodeClick` and `leafClick`
  */
 class TreeView {
-
   constructor (opts) {
     this.event = new EventManager()
     this.extractData = opts.extractData || this.extractDataDefault
