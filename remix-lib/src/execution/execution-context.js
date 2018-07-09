@@ -3,7 +3,7 @@ var Web3 = require('web3')
 var EventManager = require('../eventManager')
 var EthJSVM = require('ethereumjs-vm')
 var ethUtil = require('ethereumjs-util')
-var StateManager = require('ethereumjs-vm/lib/stateManager')
+var StateManager = require('ethereumjs-vm/dist/stateManager')
 var Web3VMProvider = require('../web3Provider/web3VmProvider')
 
 var rlp = ethUtil.rlp
@@ -235,6 +235,19 @@ function ExecutionContext () {
     }
   }
   this.setProviderFromEndpoint = setProviderFromEndpoint
+
+  this.txDetailsLink = function (network, hash) {
+    if (transactionDetailsLinks[network]) {
+      return transactionDetailsLinks[network] + hash
+    }
+  }
+}
+
+var transactionDetailsLinks = {
+  'Main': 'https://www.etherscan.io/tx/',
+  'Rinkeby': 'https://rinkeby.etherscan.io/tx/',
+  'Ropsten': 'https://ropsten.etherscan.io/tx/',
+  'Kovan': 'https://kovan.etherscan.io/tx/'
 }
 
 module.exports = new ExecutionContext()

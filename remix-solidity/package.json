@@ -1,6 +1,6 @@
 {
   "name": "remix-solidity",
-  "version": "0.0.8",
+  "version": "0.1.11",
   "description": "Ethereum IDE and tools for the web",
   "contributors": [
     {
@@ -14,24 +14,22 @@
   ],
   "main": "./index.js",
   "dependencies": {
-    "babel-preset-es2015": "^6.24.0",
-    "babel-plugin-transform-object-assign": "^6.22.0",
     "babel-eslint": "^7.1.1",
+    "babel-plugin-transform-object-assign": "^6.22.0",
+    "babel-preset-es2015": "^6.24.0",
     "babelify": "^7.3.0",
     "ethereumjs-util": "^4.5.0",
-    "ethereumjs-vm": "2.3.1",
+    "ethereumjs-vm": "^2.3.3",
     "fast-async": "^6.1.2",
-    "remix-core": "latest",
-    "remix-lib": "latest",
-    "webworkify": "^1.2.1",
-    "solc": "https://github.com/ethereum/solc-js",
     "npm-run-all": "^4.0.2",
+    "remix-lib": "^0.2.9",
+    "solc": "https://github.com/ethereum/solc-js",
     "standard": "^7.0.1",
-    "tape": "^4.6.0"
+    "tape": "^4.6.0",
+    "webworkify": "^1.2.1"
   },
   "scripts": {
-    "test": "standard && npm run downloadsolc && tape ./test/tests.js",
-    "downloadsolc": "cd node_modules/solc && (test -e soljson.js || wget https://ethereum.github.io/solc-bin/soljson.js) && cd ..",
+    "downloadsolc": "cd node_modules/solc && (test -e soljson.js || wget --no-check-certificate https://solc-bin.ethereum.org/soljson.js) && cd ..",
     "prepublish": "mkdirp build; npm-run-all -ls downloadsolc",
     "postinstall": "npm-run-all -ls downloadsolc"
   },

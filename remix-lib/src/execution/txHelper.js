@@ -1,13 +1,21 @@
 'use strict'
-var ethJSABI = require('ethereumjs-abi')
+var ethers = require('ethers')
 
 module.exports = {
+  makeFullTupleTypeDefinition: function (typeDef) {
+    if (typeDef && typeDef.type === 'tuple' && typeDef.components) {
+      var innerTypes = typeDef.components.map((innerType) => innerType.type)
+      return 'tuple(' + innerTypes.join(',') + ')'
+    }
+    return typeDef.type
+  },
+
   encodeParams: function (funABI, args) {
     var types = []
     if (funABI.inputs && funABI.inputs.length) {
       for (var i = 0; i < funABI.inputs.length; i++) {
         var type = funABI.inputs[i].type
-        types.push(type)
+        types.push(type === 'tuple' ? this.makeFullTupleTypeDefinition(funABI.inputs[i]) : type)
         if (args.length < types.length) {
           args.push('')
         }
@@ -16,18 +24,15 @@ module.exports = {
 
     // NOTE: the caller will concatenate the bytecode and this
     //       it could be done here too for consistency
-    return ethJSABI.rawEncode(types, args)
+    var abiCoder = new ethers.utils.AbiCoder()
+    return abiCoder.encode(types, args)
   },
 
   encodeFunctionId: function (funABI) {
-    var types = []
-    if (funABI.inputs && funABI.inputs.length) {
-      for (var i = 0; i < funABI.inputs.length; i++) {
-        types.push(funABI.inputs[i].type)
-      }
-    }
-
-    return ethJSABI.methodID(funABI.name, types)
+    if (funABI.type === 'fallback') return '0x'
+    var abi = new ethers.Interface([funABI])
+    abi = abi.functions[funABI.name]
+    return abi.sighash
   },
 
   sortAbiFunction: function (contractabi) {

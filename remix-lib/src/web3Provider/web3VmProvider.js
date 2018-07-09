@@ -108,25 +108,29 @@ web3VmProvider.prototype.txProcessed = function (self, data) {
     var topics = []
     if (log[1].length > 0) {
       for (var k in log[1]) {
-        topics.push(log[1][k].toString('hex'))
+        topics.push('0x' + log[1][k].toString('hex'))
       }
     } else {
       topics.push('0x')
     }
     logs.push({
-      data: log[2].toString('hex'),
+      address: '0x' + log[0].toString('hex'),
+      data: '0x' + log[2].toString('hex'),
       topics: topics,
       rawVMResponse: log
     })
   }
   self.txsReceipt[self.processingHash].logs = logs
+  self.txsReceipt[self.processingHash].transactionHash = self.processingHash
 
   if (data.createdAddress) {
     var address = util.hexConvert(data.createdAddress)
     self.vmTraces[self.processingHash].return = address
     self.txsReceipt[self.processingHash].contractAddress = address
-  } else {
+  } else if (data.vm.return) {
     self.vmTraces[self.processingHash].return = util.hexConvert(data.vm.return)
+  } else {
+    self.vmTraces[self.processingHash].return = '0x'
   }
   this.processingIndex = null
   this.processingAddress = null
@@ -149,7 +153,7 @@ web3VmProvider.prototype.pushTrace = function (self, data) {
     previousopcode.invalidDepthChange = previousopcode.op !== 'RETURN' && previousopcode.op !== 'STOP'
   }
   var step = {
-    stack: util.hexListConvert(data.stack),
+    stack: util.hexListFromBNs(data.stack),
     memory: util.formatMemory(data.memory),
     storage: data.storage,
     op: data.opcode.name,
@@ -165,7 +169,7 @@ web3VmProvider.prototype.pushTrace = function (self, data) {
       this.processingAddress = traceHelper.contractCreationToken(this.processingIndex)
       this.storageCache[this.processingHash][this.processingAddress] = {}
     } else {
-      this.processingAddress = uiutil.normalizeHex(step.stack[step.stack.length - 2])
+      this.processingAddress = uiutil.normalizeHexAddress(step.stack[step.stack.length - 2])
       if (!self.storageCache[self.processingHash][this.processingAddress]) {
         self.vm.stateManager.dumpStorage(this.processingAddress, function (storage) {
           self.storageCache[self.processingHash][self.processingAddress] = storage

@@ -1,6 +1,6 @@
 'use strict'
 var async = require('async')
-var ethJSABI = require('ethereumjs-abi')
+var ethers = require('ethers')
 var ethJSUtil = require('ethereumjs-util')
 var EventManager = require('../eventManager')
 var codeUtil = require('../util')
@@ -52,7 +52,7 @@ class TxListener {
       }
 
       addExecutionCosts(txResult, call)
-      this._resolveTx(call, (error, resolvedData) => {
+      this._resolveTx(call, call, (error, resolvedData) => {
         if (!error) {
           this.event.trigger('newCall', [call])
         }
@@ -200,23 +200,27 @@ class TxListener {
 
   _resolve (transactions, callback) {
     async.each(transactions, (tx, cb) => {
-      this._resolveTx(tx, (error, resolvedData) => {
-        if (error) cb(error)
-        if (resolvedData) {
-          this.event.trigger('txResolved', [tx, resolvedData])
-        }
-        this.event.trigger('newTransaction', [tx])
-        cb()
+      this._api.resolveReceipt(tx, (error, receipt) => {
+        if (error) return cb(error)
+        this._resolveTx(tx, receipt, (error, resolvedData) => {
+          if (error) cb(error)
+          if (resolvedData) {
+            this.event.trigger('txResolved', [tx, receipt, resolvedData])
+          }
+          this.event.trigger('newTransaction', [tx, receipt])
+          cb()
+        })
       })
     }, () => {
       callback()
     })
   }
 
-  _resolveTx (tx, cb) {
+  _resolveTx (tx, receipt, cb) {
     var contracts = this._api.contracts()
     if (!contracts) return cb()
     var contractName
+    var fun
     if (!tx.to || tx.to === '0x0') { // testrpc returns 0x0 in that case
       // contract creation / resolve using the creation bytes code
       // if web3: we have to call getTransactionReceipt to get the created address
@@ -224,17 +228,13 @@ class TxListener {
       var code = tx.input
       contractName = this._tryResolveContract(code, contracts, true)
       if (contractName) {
-        this._api.resolveReceipt(tx, (error, receipt) => {
-          if (error) return cb(error)
-          var address = receipt.contractAddress
-          this._resolvedContracts[address] = contractName
-          var fun = this._resolveFunction(contractName, contracts, tx, true)
-          if (this._resolvedTransactions[tx.hash]) {
-            this._resolvedTransactions[tx.hash].contractAddress = address
-          }
-          return cb(null, {to: null, contractName: contractName, function: fun, creationAddress: address})
-        })
-        return
+        var address = receipt.contractAddress
+        this._resolvedContracts[address] = contractName
+        fun = this._resolveFunction(contractName, contracts, tx, true)
+        if (this._resolvedTransactions[tx.hash]) {
+          this._resolvedTransactions[tx.hash].contractAddress = address
+        }
+        return cb(null, {to: null, contractName: contractName, function: fun, creationAddress: address})
       }
       return cb()
     } else {
@@ -256,7 +256,7 @@ class TxListener {
         return
       }
       if (contractName) {
-        var fun = this._resolveFunction(contractName, contracts, tx, false)
+        fun = this._resolveFunction(contractName, contracts, tx, false)
         return cb(null, {to: tx.to, contractName: contractName, function: fun})
       }
       return cb()
@@ -325,12 +325,15 @@ class TxListener {
 
   _decodeInputParams (data, abi) {
     data = ethJSUtil.toBuffer('0x' + data)
+    if (!data.length) data = new Uint8Array(32 * abi.inputs.length) // ensuring the data is at least filled by 0 cause `AbiCoder` throws if there's not engouh data
+
     var inputTypes = []
     for (var i = 0; i < abi.inputs.length; i++) {
-      inputTypes.push(abi.inputs[i].type)
+      var type = abi.inputs[i].type
+      inputTypes.push(type === 'tuple' ? txHelper.makeFullTupleTypeDefinition(abi.inputs[i]) : type)
     }
-    var decoded = ethJSABI.rawDecode(inputTypes, data)
-    decoded = ethJSABI.stringify(inputTypes, decoded)
+    var abiCoder = new ethers.utils.AbiCoder()
+    var decoded = abiCoder.decode(inputTypes, data)
     var ret = {}
     for (var k in abi.inputs) {
       ret[abi.inputs[k].type + ' ' + abi.inputs[k].name] = decoded[k]

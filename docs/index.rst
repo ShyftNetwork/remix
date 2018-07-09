@@ -1,60 +1,72 @@
-Remix - Solidity IDE
-====================
+Welcome to Remix documentation!
+===============================
 
-Remix is an IDE for the smart contract programming language Solidity and has
-an integrated debugger and testing environment.
+Remix is a powerful, open source tool that helps you write Solidity contracts straight from the browser.
+Written in Javascript, Remix supports both usage in the browser or locally.
 
-An up to date online version is available at `remix.ethereum.org <http://remix.ethereum.org>`_
+Remix also supports testing, debugging and deploying of smart contracts and much more.
 
-This page will host documentation and tutorial about features Remix provides.
+Our Remix project with all its features is available
+at `remix.ethereum.org <http://remix.ethereum.org>`__ and more information can be found in these
+docs.  Our tool is available at `our GitHub repository
+<https://github.com/ethereum/remix-id>`__.
 
-Please go to `solidity.readthedocs.io <http://solidity.readthedocs.io>`_ for any information regarding ``Solidity``
+This set of documents covers instructions on how to use Remix and some tutorials to help you get started.
 
-Overview
---------
+Userful links:
 
-Remix provides an integrated development environment (IDE) for smart contract development. 
-It focuses on the development and deployment of Solidity written smart contracts.
+- `Solidity documentation <https://solidity.readthedocs.io>`__
 
-Remix is a good solution if you intend to:
+- `Remix alpha <http://remix-alpha.ethereum.org>`__ - version where we test new Remix release (not stable!)
 
- - Develop smart contracts (remix integrates a solidity editor).
- - Debug a smart contract's execution.
- - Access the state and properties of already deployed smart contract.
- - Debug already committed transaction.
- - Analyze solidity code to reduce coding mistakes and to enforce best practices.
- - Together with Mist (or any tool which inject web3), Remix can be used to test and debug a Dapp (see :doc:`../tutorial_mist`)
+- `Ethereum Stackexchange for Remix <https://ethereum.stackexchange.com/questions/tagged/remix>`__
 
-Developing smart contract requires a deep understanding of the associated Blockchain technology. 
+- `Community support channel <https://gitter.im/ethereum/remix>`__
 
-!! Don't use Remix against a production network unless you are completely sure what you are doing !!
+- `Dapp Developer resources (Ethereum wiki) <https://github.com/ethereum/wiki/wiki/Dapp-Developer-Resources>`__
 
-This documentation describes all the features remix provides.
-The GUI can be separated in 4 parts. Click on one the link to get more information.
-
- - :doc:`../file_explorer`
- - :doc:`../solidity_editor`
- - :doc:`../terminal`
- - :doc:`../tabs_panel`
-    - :doc:`../compile_tab`
-    - :doc:`../run_tab`
-    - :doc:`../settings_tab`
-    - :doc:`../debugger_tab`
-    - :doc:`../analysis_tab`
-    - :doc:`../support_tab`
-    
-Quick Start
------------
-
-(see :doc:`../quickstart_javascriptvm`)
-
-Tutorial
---------
 
 .. toctree::
-   :maxdepth: 1
-   
-   tutorial_remixd_filesystem.rst
-   tutorial_mist.rst
-   tutorial_debug.rst
-   tutorial_import.rst
+   :maxdepth: 2
+   :caption: Quick start
+
+   packages
+   solidity_editor
+   compile_tab
+   quickstart_javascript_vm
+   settings_tab
+
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Deploy and test
+
+   run_tab
+   udapp
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Other Remix features
+
+   file_explorer
+   debugger_tab
+   analysis_tab
+   terminal
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Tutorials and workshops
+
+   workshop_Building_smart_contracts_with_Remix
+   tutorial_remixd_filesystem
+   tutorial_debug
+   tutorial_import
+   tutorial_mist
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Code contribution guide
+
+   code_contribution_guide
+   Community
+   support_tab

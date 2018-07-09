@@ -11,10 +11,6 @@ var Web3Providers = require('./src/web3Provider/web3Providers')
 var DummyProvider = require('./src/web3Provider/dummyProvider')
 var Web3VMProvider = require('./src/web3Provider/web3VmProvider')
 var AstWalker = require('./src/astWalker')
-var global = require('./src/global')
-var styleGuide = require('./src/ui/style-guide')
-var styleGuideDark = require('./src/ui/styleGuideDark')
-var themeChooser = require('./src/ui/theme-chooser')
 var Storage = require('./src/storage')
 
 var EventsDecoder = require('./src/execution/eventsDecoder')
@@ -22,7 +18,9 @@ var txExecution = require('./src/execution/txExecution')
 var txHelper = require('./src/execution/txHelper')
 var txFormat = require('./src/execution/txFormat')
 var txListener = require('./src/execution/txListener')
+var txRunner = require('./src/execution/txRunner')
 var executionContext = require('./src/execution/execution-context')
+var typeConversion = require('./src/execution/typeConversion')
 
 if (typeof (module) !== 'undefined' && typeof (module.exports) !== 'undefined') {
   module.exports = modules()
@@ -51,19 +49,15 @@ function modules () {
     init: init,
     util: util,
     AstWalker: AstWalker,
-    global: global,
-    ui: {
-      styleGuide: styleGuide,
-      styleGuideDark: styleGuideDark,
-      themeChooser: themeChooser
-    },
     execution: {
       EventsDecoder: EventsDecoder,
       txExecution: txExecution,
       txHelper: txHelper,
       executionContext: executionContext,
       txFormat: txFormat,
-      txListener: txListener
+      txListener: txListener,
+      txRunner: txRunner,
+      typeConversion: typeConversion
     }
   }
 }

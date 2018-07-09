@@ -1,33 +1,52 @@
 'use strict'
+var ethers = require('ethers')
 
 module.exports = {
   /**
     * deploy the given contract
     *
+    * @param {String} from    - sender address
     * @param {String} data    - data to send with the transaction ( return of txFormat.buildData(...) ).
-    * @param {Object} udap    - udapp.
-    * @param {Function} callback    - callback.
+    * @param {String} value    - decimal representation of value.
+    * @param {String} gasLimit    - decimal representation of gas limit.
+    * @param {Object} txRunner    - TxRunner.js instance
+    * @param {Object} callbacks    - { confirmationCb, gasEstimationForceSend, promptCb }
+    *     [validate transaction] confirmationCb (network, tx, gasEstimation, continueTxExecution, cancelCb)
+    *     [transaction failed, force send] gasEstimationForceSend (error, continueTxExecution, cancelCb)
+    *     [personal mode enabled, need password to continue] promptCb (okCb, cancelCb)
+    * @param {Function} finalCallback    - last callback.
     */
-  createContract: function (data, udapp, callback) {
-    udapp.runTx({data: data, useCall: false}, (error, txResult) => {
+  createContract: function (from, data, value, gasLimit, txRunner, callbacks, finalCallback) {
+    if (!callbacks.confirmationCb || !callbacks.gasEstimationForceSend || !callbacks.promptCb) {
+      return finalCallback('all the callbacks must have been defined')
+    }
+    var tx = { from: from, to: null, data: data, useCall: false, value: value, gasLimit: gasLimit }
+    txRunner.rawRun(tx, callbacks.confirmationCb, callbacks.gasEstimationForceSend, callbacks.promptCb, (error, txResult) => {
       // see universaldapp.js line 660 => 700 to check possible values of txResult (error case)
-      callback(error, txResult)
+      finalCallback(error, txResult)
     })
   },
 
   /**
-    * call the current given contract
+    * call the current given contract ! that will create a transaction !
     *
-    * @param {String} to    - address of the contract to call.
+    * @param {String} from    - sender address
+    * @param {String} to    - recipient address
     * @param {String} data    - data to send with the transaction ( return of txFormat.buildData(...) ).
-    * @param {Object} funAbi    - abi definition of the function to call.
-    * @param {Object} udap    - udapp.
-    * @param {Function} callback    - callback.
+    * @param {String} value    - decimal representation of value.
+    * @param {String} gasLimit    - decimal representation of gas limit.
+    * @param {Object} txRunner    - TxRunner.js instance
+    * @param {Object} callbacks    - { confirmationCb, gasEstimationForceSend, promptCb }
+    *     [validate transaction] confirmationCb (network, tx, gasEstimation, continueTxExecution, cancelCb)
+    *     [transaction failed, force send] gasEstimationForceSend (error, continueTxExecution, cancelCb)
+    *     [personal mode enabled, need password to continue] promptCb (okCb, cancelCb)
+    * @param {Function} finalCallback    - last callback.
     */
-  callFunction: function (to, data, funAbi, udapp, callback) {
-    udapp.runTx({to: to, data: data, useCall: funAbi.constant}, (error, txResult) => {
+  callFunction: function (from, to, data, value, gasLimit, funAbi, txRunner, callbacks, finalCallback) {
+    var tx = { from: from, to: to, data: data, useCall: false, value: value, gasLimit: gasLimit }
+    txRunner.rawRun(tx, callbacks.confirmationCb, callbacks.gasEstimationForceSend, callbacks.promptCb, (error, txResult) => {
       // see universaldapp.js line 660 => 700 to check possible values of txResult (error case)
-      callback(error, txResult)
+      finalCallback(error, txResult)
     })
   },
 
@@ -54,22 +73,31 @@ module.exports = {
     if (!txResult.result.vm.exceptionError) {
       return ret
     }
-    var error = `VM error: ${txResult.result.vm.exceptionError}.\n`
+    var exceptionError = txResult.result.vm.exceptionError.error || ''
+    var error = `VM error: ${exceptionError}.\n`
     var msg
-    if (txResult.result.vm.exceptionError === errorCode.INVALID_OPCODE) {
+    if (exceptionError === errorCode.INVALID_OPCODE) {
       msg = `\t\n\tThe execution might have thrown.\n`
       ret.error = true
-    } else if (txResult.result.vm.exceptionError === errorCode.OUT_OF_GAS) {
+    } else if (exceptionError === errorCode.OUT_OF_GAS) {
       msg = `\tThe transaction ran out of gas. Please increase the Gas Limit.\n`
       ret.error = true
-    } else if (txResult.result.vm.exceptionError === errorCode.REVERT) {
-      msg = `\tThe transaction has been reverted to the initial state.\nNote: The constructor should be payable if you send value.`
+    } else if (exceptionError === errorCode.REVERT) {
+      var returnData = txResult.result.vm.return
+      // It is the hash of Error(string)
+      if (returnData && (returnData.slice(0, 4).toString('hex') === '08c379a0')) {
+        var abiCoder = new ethers.utils.AbiCoder()
+        var reason = abiCoder.decode(['string'], returnData.slice(4))[0]
+        msg = `\tThe transaction has been reverted to the initial state.\nReason provided by the contract: "${reason}".`
+      } else {
+        msg = `\tThe transaction has been reverted to the initial state.\nNote: The constructor should be payable if you send value.`
+      }
       ret.error = true
-    } else if (txResult.result.vm.exceptionError === errorCode.STATIC_STATE_CHANGE) {
+    } else if (exceptionError === errorCode.STATIC_STATE_CHANGE) {
       msg = `\tState changes is not allowed in Static Call context\n`
       ret.error = true
     }
-    ret.message = `${error}${txResult.result.vm.exceptionError}${msg}\tDebug the transaction to get more information.`
+    ret.message = `${error}${exceptionError}${msg}\tDebug the transaction to get more information.`
     return ret
   }
 }

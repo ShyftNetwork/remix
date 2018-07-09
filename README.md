@@ -7,13 +7,13 @@ Ethereum tools for the web.
 *Are you looking for the Remix IDE? Follow [this link](https://github.com/ethereum/remix-ide)!*
 
 + [What is Remix?](#what-is-remix)
-+ [How to use Remix](#how-to-use)
++ [How to use Remix?](#how-to-use)
 + [Modules](#modules)
-+ [Contributing](#contributing)
++ [Contributing guidelines](#contributing)
 
 ## <a name="what-is-remix"></a>What is Remix?
 
-**Remix** is a suite of tools to interact with the Ethereum blockchain in order to debug transactions, stored in this Git repository. A Remix transaction Web debugger is available [here](http://ethereum.github.io/remix), and its source code is part of this repository.
+**Remix** is a suite of tools to interact with the Ethereum blockchain in order to debug transactions, stored in this Git repository. A Remix transaction Web debugger is available [here](http://remix.ethereum.org), and its source code is part of this repository.
 
 The **Remix IDE** is an IDE for Solidity dApp developers, powered by Remix. The Remix IDE repository **is available [here](https://github.com/ethereum/remix-ide)**, and an online version is available at https://remix.ethereum.org.
 
@@ -41,8 +41,7 @@ Remix is built out of 4 different modules:
 
 + [`remix-solidity`](remix-solidity/README.md) provides Solidity analysis and decoding functions.
 + [`remix-lib`](remix-lib/README.md)
-+ [`remix-core`](remix-core/README.md) is a utility package, providing high-level abstractions to work with the Ethereum VM.
-+ [`remix-debugger`](remix-debugger/README.md) contains the **debugging webapp**.
++ [`remix-debug`](remix-debugger/README.md) contains the debugger.
 
 ## Contributing
 

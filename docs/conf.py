@@ -15,10 +15,12 @@
 import sys
 import os
 
+
+
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-#sys.path.insert(0, os.path.abspath('.'))
+# sys.path.insert(0, os.path.abspath('.'))
 
 # -- General configuration ------------------------------------------------
 
@@ -36,7 +38,7 @@ templates_path = ['_templates']
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
 # source_suffix = ['.rst', '.md']
-source_suffix = '.rst'
+
 
 # The encoding of source files.
 #source_encoding = 'utf-8-sig'
@@ -45,9 +47,11 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Remix'
-copyright = u'2017, yann300'
-author = u'yann300'
+project = u'Remix, Ethereum-IDE'
+copyright = u'2018, Remix'
+author = u'Remix team'
+
+github_doc_root = 'https://github.com/ethereum/remix/tree/master/docs/'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -93,6 +97,8 @@ exclude_patterns = ['_build']
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'sphinx'
 
+highlight_language = 'JavaScript'
+
 # A list of ignored prefixes for module index sorting.
 #modindex_common_prefix = []
 
@@ -107,7 +113,8 @@ todo_include_todos = False
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = 'alabaster'
+html_theme = 'sphinx_rtd_theme'
+
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -281,3 +288,18 @@ texinfo_documents = [
 
 # If true, do not generate a @detailmenu in the "Top" node's menu.
 #texinfo_no_detailmenu = False
+
+from recommonmark.parser import CommonMarkParser
+source_suffix = ['.rst', '.md']
+source_parsers = {'.md': CommonMarkParser}
+
+
+# app setup hook
+# def setup(app):
+#     app.add_config_value('recommonmark_config', {
+#         'url_resolver': lambda url: github_doc_root + url,
+#         'enable_auto_toc_tree': True,
+#         'enable_eval_rst': True,
+#         'enable_auto_doc_ref': True,
+#     }, True)
+#     app.add_transform(AutoStructify)
