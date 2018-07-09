@@ -1,8 +1,9 @@
 {
-  "name": "remix-analyzer",
+  "name": "@shyftnetwork/shyft_remix-analyzer",
   "version": "0.1.0",
   "description": "Remix Analyzer",
   "main": "./index.js",
+  "private": false,
   "contributors": [
     {
       "name": "Alex Beregszaszi",
@@ -36,7 +37,7 @@
     ],
     "parser": "babel-eslint"
   },
-  "author": "Remix Team",
+  "author": "ShyftNetwork",
   "license": "MIT",
-  "homepage": "https://github.com/ethereum/remix#readme"
+  "homepage": "https://github.com/ShyftNetwork/shyft_remix#readme"
 }
