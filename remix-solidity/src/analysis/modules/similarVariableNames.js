@@ -4,7 +4,7 @@ var categories = require('./categories')
 var common = require('./staticAnalysisCommon')
 var AbstractAst = require('./abstractAstView')
 var levenshtein = require('fast-levenshtein')
-var remixLib = require('remix-lib')
+var remixLib = require('@shyftnetwork/shyft_remix-lib')
 var util = remixLib.util
 
 function similarVariableNames () {

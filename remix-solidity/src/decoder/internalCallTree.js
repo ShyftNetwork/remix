@@ -1,5 +1,5 @@
 'use strict'
-var remixLib = require('remix-lib')
+var remixLib = require('@shyftnetwork/shyft_remix-lib')
 var SourceLocationTracker = remixLib.SourceLocationTracker
 var AstWalker = remixLib.AstWalker
 var EventManager = remixLib.EventManager

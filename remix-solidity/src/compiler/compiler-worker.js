@@ -1,6 +1,6 @@
 'use strict'
 
-var solc = require('solc/wrapper')
+var solc = require('@shyftnetwork/shyft_solc/wrapper')
 
 var compileJSON = function () { return '' }
 var missingInputs = []

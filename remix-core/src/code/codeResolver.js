@@ -1,6 +1,6 @@
 'use strict'
 var codeUtils = require('./codeUtils')
-var remixLib = require('remix-lib')
+var remixLib = require('@shyftnetwork/shyft_remix-lib')
 var global = remixLib.global
 
 module.exports = {

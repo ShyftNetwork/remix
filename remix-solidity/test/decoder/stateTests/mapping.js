@@ -1,6 +1,6 @@
-var remixLib = require('remix-lib')
+var remixLib = require('@shyftnetwork/shyft_remix-lib')
 var compilerInput = remixLib.helpers.compiler.compilerInput
-var compiler = require('solc')
+var compiler = require('@shyftnetwork/shyft_solc')
 var stateDecoder = require('../../../src/decoder/stateDecoder')
 var vmCall = require('../vmCall')
 
@@ -40,11 +40,11 @@ function testMapping (st, vm, privateKey, contractAddress, output, cb) {
                 console.log(error)
                 st.end(error)
               } else {
-                var TraceManager = require('remix-core').trace.TraceManager
+                var TraceManager = require('@shyftnetwork/shyft_remix-core').trace.TraceManager
                 var traceManager = new TraceManager()
                 traceManager.resolveTrace(tx, () => {
-                  var StorageResolver = require('remix-core').storage.StorageResolver
-                  var StorageViewer = require('remix-core').storage.StorageViewer
+                  var StorageResolver = require('@shyftnetwork/shyft_remix-core').storage.StorageResolver
+                  var StorageViewer = require('@shyftnetwork/shyft_remix-core').storage.StorageViewer
                   var storageViewer = new StorageViewer({
                     stepIndex: 213,
                     tx: tx,

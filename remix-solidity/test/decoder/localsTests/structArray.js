@@ -1,9 +1,9 @@
 'use strict'
-var remixCore = require('remix-core')
+var remixCore = require('@shyftnetwork/shyft_remix-core')
 var TraceManager = remixCore.trace.TraceManager
 var CodeManager = remixCore.code.CodeManager
 var vmCall = require('../vmCall')
-var remixLib = require('remix-lib')
+var remixLib = require('@shyftnetwork/shyft_remix-lib')
 var traceHelper = remixLib.helpers.trace
 var global = remixLib.global
 var SolidityProxy = require('../../../src/decoder/solidityProxy')

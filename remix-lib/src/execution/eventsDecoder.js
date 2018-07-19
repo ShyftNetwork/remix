@@ -12,7 +12,7 @@ class EventsDecoder {
     this._api = opt.api
   }
 
-/**
+  /**
   * use Transaction Receipt to decode logs. assume that the transaction as already been resolved by txListener.
   * logs are decoded only if the contract if known by remix.
   *

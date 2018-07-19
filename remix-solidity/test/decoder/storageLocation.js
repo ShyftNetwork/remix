@@ -1,9 +1,9 @@
 'use strict'
 var tape = require('tape')
-var compiler = require('solc')
+var compiler = require('@shyftnetwork/shyft_solc')
 var stateDecoder = require('../../src/decoder/stateDecoder')
 var contracts = require('./contracts/miscContracts')
-var remixLib = require('remix-lib')
+var remixLib = require('@shyftnetwork/shyft_remix-lib')
 var compilerInput = remixLib.helpers.compiler.compilerInput
 
 tape('solidity', function (t) {

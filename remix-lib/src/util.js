@@ -142,7 +142,7 @@ module.exports = {
     */
   findCall: findCall,
 
-   /**
+  /**
     * Find calls path from @args rootCall which leads to @args index (recursive)
     *
     * @param {Int} index - index of the vmtrace

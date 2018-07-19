@@ -3,7 +3,7 @@ var ethers = require('ethers')
 var helper = require('./txHelper')
 var executionContext = require('./execution-context')
 var asyncJS = require('async')
-var solcLinker = require('solc/linker')
+var solcLinker = require('@shyftnetwork/shyft_solc/linker')
 var ethJSUtil = require('ethereumjs-util')
 
 module.exports = {

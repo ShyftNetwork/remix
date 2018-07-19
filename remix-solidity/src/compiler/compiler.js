@@ -1,13 +1,13 @@
 'use strict'
 
-var solc = require('solc/wrapper')
-var solcABI = require('solc/abi')
+var solc = require('@shyftnetwork/shyft_solc/wrapper')
+var solcABI = require('@shyftnetwork/shyft_solc/abi')
 
 var webworkify = require('webworkify')
 
 var compilerInput = require('./compiler-input')
 
-var remixLib = require('remix-lib')
+var remixLib = require('@shyftnetwork/shyft_remix-lib')
 var EventManager = remixLib.EventManager
 
 var txHelper = require('./txHelper')
@@ -74,7 +74,7 @@ function Compiler (handleImportCall) {
     if (worker === null) {
       var compiler
       if (typeof (window) === 'undefined') {
-        compiler = require('solc')
+        compiler = require('@shyftnetwork/shyft_solc')
       } else {
         compiler = solc(window.Module)
       }

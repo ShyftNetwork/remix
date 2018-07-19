@@ -126,7 +126,7 @@ class TxListener {
     }
   }
 
-   /**
+  /**
     * stop listening for incoming transactions. do not reset the recorded pool.
     *
     * @param {String} type - type/name of the provider to add

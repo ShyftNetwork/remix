@@ -1,12 +1,12 @@
 'use strict'
 var tape = require('tape')
-var compiler = require('solc')
+var compiler = require('@shyftnetwork/shyft_solc')
 var astHelper = require('../../src/decoder/astHelper')
 var decodeInfo = require('../../src/decoder/decodeInfo')
 var stateDecoder = require('../../src/decoder/stateDecoder')
 var contracts = require('./contracts/miscContracts')
 var simplecontracts = require('./contracts/simpleContract')
-var remixLib = require('remix-lib')
+var remixLib = require('@shyftnetwork/shyft_remix-lib')
 var compilerInput = remixLib.helpers.compiler.compilerInput
 var util = require('../../src/decoder/types/util')
 
