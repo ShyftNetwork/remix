@@ -1,10 +1,10 @@
 'use strict'
 var tape = require('tape')
-var compiler = require('solc')
+var compiler = require('@shyftnetwork/shyft_solc')
 var intLocal = require('./contracts/intLocal')
 var miscLocal = require('./contracts/miscLocal')
 var structArrayLocal = require('./contracts/structArrayLocal')
-var remixLib = require('remix-lib')
+var remixLib = require('@shyftnetwork/shyft_remix-lib')
 var vmCall = require('./vmCall')
 var intLocalTest = require('./localsTests/int')
 var miscLocalTest = require('./localsTests/misc')

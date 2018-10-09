@@ -1,7 +1,7 @@
 'use strict'
 
 var vmCall = require('../vmCall')
-var remixLib = require('remix-lib')
+var remixLib = require('@shyftnetwork/shyft_remix-lib')
 
 var TraceManager = remixLib.trace.TraceManager
 var CodeManager = remixLib.code.CodeManager

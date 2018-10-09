@@ -1,7 +1,7 @@
 var util = require('../util')
 var uiutil = require('../helpers/uiHelper')
 var traceHelper = require('../helpers/traceHelper')
-var ethutil = require('ethereumjs-util')
+var ethutil = require('@shyftnetwork/shyft_ethereumjs-util')
 var Web3 = require('web3')
 
 function web3VmProvider () {

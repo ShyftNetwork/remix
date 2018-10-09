@@ -1,10 +1,10 @@
 var test = require('tape')
-var remixLib = require('remix-lib')
+var remixLib = require(''@shyftnetwork/shyft_remix-lib')
 
 var StatRunner = require('../../src/solidity-analyzer')
 var compilerInput = remixLib.helpers.compiler.compilerInput
 
-var compiler = require('solc')
+var compiler = require('@shyftnetwork/shyft_solc')
 
 var fs = require('fs')
 var path = require('path')

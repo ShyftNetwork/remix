@@ -5,7 +5,7 @@ const assert = require('assert')
 let Compiler = require('../src/compiler.js')
 let Deployer = require('../src/deployer.js')
 let TestRunner = require('../src/testRunner.js')
-const Provider = require('remix-simulator').Provider
+const Provider = require('@shyftnetwork/shyft_remix-simulator').Provider
 
 function compileAndDeploy (filename, callback) {
   let web3 = new Web3()

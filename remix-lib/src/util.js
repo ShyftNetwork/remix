@@ -1,5 +1,5 @@
 'use strict'
-var ethutil = require('ethereumjs-util')
+var ethutil = require('@shyftnetwork/shyft_ethereumjs-util')
 
 /*
  contains misc util: @TODO should be splitted

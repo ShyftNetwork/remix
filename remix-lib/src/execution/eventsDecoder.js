@@ -1,5 +1,5 @@
 'use strict'
-var ethJSUtil = require('ethereumjs-util')
+var ethJSUtil = require('@shyftnetwork/shyft_ethereumjs-util')
 var ethers = require('ethers')
 var txHelper = require('./txHelper')
 

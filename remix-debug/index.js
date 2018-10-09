@@ -6,7 +6,7 @@ var StorageResolver = require('./src/storage/storageResolver')
 
 var SolidityDecoder = require('./src/solidity-decoder')
 
-var remixLib = require('remix-lib')
+var remixLib = require('@shyftnetwork/shyft_remix-lib')
 var BreakpointManager = remixLib.code.BreakpointManager
 
 /*

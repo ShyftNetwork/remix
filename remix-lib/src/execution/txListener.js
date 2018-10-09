@@ -1,7 +1,7 @@
 'use strict'
 var async = require('async')
 var ethers = require('ethers')
-var ethJSUtil = require('ethereumjs-util')
+var ethJSUtil = require('@shyftnetwork/shyft_ethereumjs-util')
 var EventManager = require('../eventManager')
 var codeUtil = require('../util')
 

@@ -1,5 +1,5 @@
 var async = require('async')
-var remixLib = require('remix-lib')
+var remixLib = require('@shyftnetwork/shyft_remix-lib')
 
 function deployAll (compileResult, web3, callback) {
   let compiledObject = {}

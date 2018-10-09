@@ -2,7 +2,7 @@
 let fs = require('fs')
 var async = require('async')
 var path = require('path')
-let RemixCompiler = require('remix-solidity').Compiler
+let RemixCompiler = require('@shyftnetwork/shyft_remix-solidity').Compiler
 
 String.prototype.regexIndexOf = function (regex, startpos) {
   var indexOf = this.substring(startpos || 0).search(regex)

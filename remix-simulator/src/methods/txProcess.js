@@ -1,4 +1,4 @@
-var RemixLib = require('remix-lib')
+var RemixLib = require('@shyftnetwork/shyft_remix-lib')
 var TxExecution = RemixLib.execution.txExecution
 var TxRunner = RemixLib.execution.txRunner
 var executionContext = RemixLib.execution.executionContext

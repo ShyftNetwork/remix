@@ -8,7 +8,7 @@ let Deployer = require('./deployer.js')
 let TestRunner = require('./testRunner.js')
 
 const Web3 = require('web3')
-const Provider = require('remix-simulator').Provider
+const Provider = require('@shyftnetwork/shyft_remix-simulator').Provider
 
 var createWeb3Provider = function () {
   let web3 = new Web3()

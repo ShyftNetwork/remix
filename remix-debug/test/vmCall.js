@@ -1,9 +1,9 @@
 'use strict'
-var utileth = require('ethereumjs-util')
-var Tx = require('ethereumjs-tx')
-var Block = require('ethereumjs-block')
-var BN = require('ethereumjs-util').BN
-var remixLib = require('remix-lib')
+var utileth = require('@shyftnetwork/shyft_ethereumjs-util')
+var Tx = require('@shyftnetwork/shyft_ethereumjs-tx')
+var Block = require('@shyftnetwork/shyft_ethereumjs-block')
+var BN = require('@shyftnetwork/shyft_ethereumjs-util').BN
+var remixLib = require('@shyftnetwork/shyft_remix-lib')
 
 function sendTx (vm, from, to, value, data, cb) {
   var tx = new Tx({
@@ -34,8 +34,8 @@ function sendTx (vm, from, to, value, data, cb) {
   Init VM / Send Transaction
 */
 function initVM (st, privateKey) {
-  var utileth = require('ethereumjs-util')
-  var VM = require('ethereumjs-vm')
+  var utileth = require('@shyftnetwork/shyft_ethereumjs-util')
+  var VM = require('@shyftnetwork/shyft_ethereumjs-vm')
   var Web3Providers = remixLib.vm.Web3Providers
   var address = utileth.privateToAddress(privateKey)
   var vm = new VM({

@@ -3,7 +3,7 @@ var tape = require('tape')
 var txFormat = require('../src/execution/txFormat')
 var txHelper = require('../src/execution/txHelper')
 var util = require('../src/util')
-var compiler = require('solc')
+var compiler = require('@shyftnetwork/shyft_solc')
 var compilerInput = require('../src/helpers/compilerHelper').compilerInput
 var executionContext = require('../src/execution/execution-context')
 

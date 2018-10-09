@@ -1,7 +1,7 @@
 'use strict'
 
-var solc = require('solc/wrapper')
-var solcABI = require('solc/abi')
+var solc = require('@shyftnetwork/shyft_solc/wrapper')
+var solcABI = require('@shyftnetwork/shyft_solc/abi')
 
 var webworkify = require('webworkify')
 
@@ -75,7 +75,7 @@ function Compiler (handleImportCall) {
       var compiler
       var userAgent = (typeof (navigator) !== 'undefined') && navigator.userAgent ? navigator.userAgent.toLowerCase() : '-'
       if (typeof (window) === 'undefined' || userAgent.indexOf(' electron/') > -1) {
-        compiler = require('solc')
+        compiler = require('@shyftnetwork/shyft_solc')
       } else {
         compiler = solc(window.Module)
       }
