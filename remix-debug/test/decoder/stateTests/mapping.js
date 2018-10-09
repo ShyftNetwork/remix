@@ -1,16 +1,17 @@
 var remixLib = require('remix-lib')
 var compilerInput = remixLib.helpers.compiler.compilerInput
+var TraceManager = remixLib.trace.TraceManager
+
 var compiler = require('solc')
-var stateDecoder = require('../../../src/decoder/stateDecoder')
+var stateDecoder = require('../../../src/solidity-decoder/stateDecoder')
 var vmCall = require('../vmCall')
 
-var TraceManager = require('../../../src/trace/traceManager')
 var StorageResolver = require('../../../src/storage/storageResolver')
 var StorageViewer = require('../../../src/storage/storageViewer')
 
 module.exports = function testMappingStorage (st, cb) {
   var mappingStorage = require('../contracts/mappingStorage')
-  var privateKey = new Buffer('dae9801649ba2d95a21e688b56f77905e5667c44ce868ec83f82e838712a2c7a', 'hex')
+  var privateKey = Buffer.from('dae9801649ba2d95a21e688b56f77905e5667c44ce868ec83f82e838712a2c7a', 'hex')
   var vm = vmCall.initVM(st, privateKey)
   var output = compiler.compileStandardWrapper(compilerInput(mappingStorage.contract))
   output = JSON.parse(output)

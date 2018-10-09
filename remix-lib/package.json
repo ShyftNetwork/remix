@@ -1,6 +1,6 @@
 {
   "name": "@shyftnetwork/shyft_remix-lib",
-  "version": "0.2.9",
+  "version": "0.3.0",
   "description": "Ethereum IDE and tools for the web",
   "contributors": [
     {
@@ -30,7 +30,7 @@
     "@shyftnetwork/shyft_solc": "^0.4.13",
     "standard": "^7.0.1",
     "tape": "^4.6.0",
-    "web3": "^0.18.0"
+    "web3": "0.20.6"
   },
   "scripts": {
     "test": "standard && tape ./test/tests.js"
@@ -50,7 +50,8 @@
       "node_modules/*",
       "build/*",
       "test/resources/*"
-    ]
+    ],
+    "parser": "babel-eslint"
   },
   "browserify": {
     "transform": [
@@ -73,9 +74,6 @@
             "transform-object-assign"
           ]
         }
-      ],
-      [
-        "yo-yoify"
       ],
       [
         "babelify",

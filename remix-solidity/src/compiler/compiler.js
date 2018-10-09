@@ -73,7 +73,8 @@ function Compiler (handleImportCall) {
   function onInternalCompilerLoaded () {
     if (worker === null) {
       var compiler
-      if (typeof (window) === 'undefined') {
+      var userAgent = (typeof (navigator) !== 'undefined') && navigator.userAgent ? navigator.userAgent.toLowerCase() : '-'
+      if (typeof (window) === 'undefined' || userAgent.indexOf(' electron/') > -1) {
         compiler = require('solc')
       } else {
         compiler = solc(window.Module)
@@ -92,7 +93,7 @@ function Compiler (handleImportCall) {
           result = compiler.compileStandardWrapper(input, missingInputsCallback)
           result = JSON.parse(result)
         } catch (exception) {
-          result = { error: 'Uncaught JavaScript exception:\n' + exception }
+          result = { error: { formattedMessage: 'Uncaught JavaScript exception:\n' + exception, severity: 'error', mode: 'panic' } }
         }
 
         compilationFinished(result, missingInputs, source)
@@ -210,6 +211,7 @@ function Compiler (handleImportCall) {
       self.event.trigger('compilationFinished', [false, data, source])
     } else if (missingInputs !== undefined && missingInputs.length > 0) {
       // try compiling again with the new set of inputs
+
       internalCompile(source.sources, source.target, missingInputs)
     } else {
       data = updateInterface(data)

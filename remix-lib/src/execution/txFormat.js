@@ -1,7 +1,6 @@
 'use strict'
 var ethers = require('ethers')
 var helper = require('./txHelper')
-var executionContext = require('./execution-context')
 var asyncJS = require('async')
 var solcLinker = require('solc/linker')
 var ethJSUtil = require('ethereumjs-util')
@@ -187,14 +186,12 @@ module.exports = {
         callback('Error encoding arguments: ' + e)
         return
       }
-      if (!isConstructor || funArgs.length > 0) {
-        try {
-          data = helper.encodeParams(funAbi, funArgs)
-          dataHex = data.toString('hex')
-        } catch (e) {
-          callback('Error encoding arguments: ' + e)
-          return
-        }
+      try {
+        data = helper.encodeParams(funAbi, funArgs)
+        dataHex = data.toString('hex')
+      } catch (e) {
+        callback('Error encoding arguments: ' + e)
+        return
       }
       if (data.slice(0, 9) === 'undefined') {
         dataHex = data.slice(9)
@@ -229,6 +226,7 @@ module.exports = {
   atAddress: function () {},
 
   linkBytecodeStandard: function (contract, contracts, callback, callbackStep, callbackDeployLibrary) {
+    var contractBytecode = contract.evm.bytecode.object
     asyncJS.eachOfSeries(contract.evm.bytecode.linkReferences, (libs, file, cbFile) => {
       asyncJS.eachOfSeries(contract.evm.bytecode.linkReferences[file], (libRef, libName, cbLibDeployed) => {
         var library = contracts[file][libName]
@@ -241,7 +239,7 @@ module.exports = {
             if (hexAddress.slice(0, 2) === '0x') {
               hexAddress = hexAddress.slice(2)
             }
-            contract.evm.bytecode.object = this.linkLibraryStandard(libName, hexAddress, contract)
+            contractBytecode = this.linkLibraryStandard(libName, hexAddress, contractBytecode, contract)
             cbLibDeployed()
           }, callbackStep, callbackDeployLibrary)
         } else {
@@ -254,7 +252,7 @@ module.exports = {
       if (error) {
         callbackStep(error)
       }
-      callback(error, contract.evm.bytecode.object)
+      callback(error, contractBytecode)
     })
   },
 
@@ -319,7 +317,7 @@ module.exports = {
         if (err) {
           return callback(err)
         }
-        var address = executionContext.isVM() ? txResult.result.createdAddress : txResult.result.contractAddress
+        var address = txResult.result.createdAddress || txResult.result.contractAddress
         library.address = address
         callback(err, address)
       })
@@ -337,8 +335,8 @@ module.exports = {
     return bytecode
   },
 
-  linkLibraryStandard: function (libraryName, address, contract) {
-    return this.linkLibraryStandardFromlinkReferences(libraryName, address, contract.evm.bytecode.object, contract.evm.bytecode.linkReferences)
+  linkLibraryStandard: function (libraryName, address, bytecode, contract) {
+    return this.linkLibraryStandardFromlinkReferences(libraryName, address, bytecode, contract.evm.bytecode.linkReferences)
   },
 
   setLibraryAddress: function (address, bytecodeToLink, positions) {
@@ -366,7 +364,7 @@ module.exports = {
         var outputTypes = []
         for (i = 0; i < fnabi.outputs.length; i++) {
           var type = fnabi.outputs[i].type
-          outputTypes.push(type === 'tuple' ? helper.makeFullTupleTypeDefinition(fnabi.outputs[i]) : type)
+          outputTypes.push(type.indexOf('tuple') === 0 ? helper.makeFullTupleTypeDefinition(fnabi.outputs[i]) : type)
         }
 
         if (!response.length) response = new Uint8Array(32 * fnabi.outputs.length) // ensuring the data is at least filled by 0 cause `AbiCoder` throws if there's not engouh data

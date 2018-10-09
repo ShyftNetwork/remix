@@ -1,6 +1,6 @@
 {
   "name": "@shyftnetwork/shyft_remix-solidity",
-  "version": "0.1.11",
+  "version": "0.2.0",
   "description": "Ethereum IDE and tools for the web",
   "contributors": [
     {
@@ -29,14 +29,11 @@
     "webworkify": "^1.2.1"
   },
   "scripts": {
-    "downloadsolc": "cd node_modules/solc && (test -e soljson.js || wget --no-check-certificate https://shyftnetwork.github.io/shyft_solc-bin/soljson.js) && cd ..",
-    "prepublish": "mkdirp build; npm-run-all -ls downloadsolc",
-    "postinstall": "npm-run-all -ls downloadsolc"
+    "test": "standard && tape ./test/tests.js"
   },
   "standard": {
     "ignore": [
-      "node_modules/*",
-      "soljson.js"
+      "node_modules/*"
     ],
     "parser": "babel-eslint"
   },

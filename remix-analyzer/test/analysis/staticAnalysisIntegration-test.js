@@ -1,7 +1,7 @@
 var test = require('tape')
 var remixLib = require('remix-lib')
 
-var StatRunner = require('../../src/analysis/staticAnalysisRunner')
+var StatRunner = require('../../src/solidity-analyzer')
 var compilerInput = remixLib.helpers.compiler.compilerInput
 
 var compiler = require('solc')
@@ -29,8 +29,12 @@ var testFiles = [
   'forgottenReturn.sol',
   'selfdestruct.sol',
   'deleteDynamicArray.sol',
+  'deleteFromDynamicArray.sol',
   'blockLevelCompare.sol',
-  'intDivisionTruncate.sol'
+  'intDivisionTruncate.sol',
+  'ERC20.sol',
+  'stringBytesLength.sol',
+  'forLoopIteratesOverDynamicArray.sol'
 ]
 
 var testFileAsts = {}
@@ -43,7 +47,7 @@ testFiles.forEach((fileName) => {
 test('Integration test thisLocal.js', function (t) {
   t.plan(testFiles.length)
 
-  var module = require('../../src/analysis/modules/thisLocal')
+  var module = require('../../src/solidity-analyzer/modules/thisLocal')
 
   var lengthCheck = {
     'KingOfTheEtherThrone.sol': 0,
@@ -65,8 +69,12 @@ test('Integration test thisLocal.js', function (t) {
     'forgottenReturn.sol': 0,
     'selfdestruct.sol': 0,
     'deleteDynamicArray.sol': 0,
+    'deleteFromDynamicArray.sol': 0,
     'blockLevelCompare.sol': 0,
-    'intDivisionTruncate.sol': 0
+    'intDivisionTruncate.sol': 0,
+    'ERC20.sol': 0,
+    'stringBytesLength.sol': 0,
+    'forLoopIteratesOverDynamicArray.sol': 0
   }
 
   runModuleOnFiles(module, t, (file, report) => {
@@ -77,7 +85,7 @@ test('Integration test thisLocal.js', function (t) {
 test('Integration test checksEffectsInteraction.js', function (t) {
   t.plan(testFiles.length)
 
-  var module = require('../../src/analysis/modules/checksEffectsInteraction')
+  var module = require('../../src/solidity-analyzer/modules/checksEffectsInteraction')
 
   var lengthCheck = {
     'KingOfTheEtherThrone.sol': 1,
@@ -99,8 +107,12 @@ test('Integration test checksEffectsInteraction.js', function (t) {
     'forgottenReturn.sol': 0,
     'selfdestruct.sol': 0,
     'deleteDynamicArray.sol': 0,
+    'deleteFromDynamicArray.sol': 0,
     'blockLevelCompare.sol': 0,
-    'intDivisionTruncate.sol': 0
+    'intDivisionTruncate.sol': 0,
+    'ERC20.sol': 0,
+    'stringBytesLength.sol': 0,
+    'forLoopIteratesOverDynamicArray.sol': 0
   }
 
   runModuleOnFiles(module, t, (file, report) => {
@@ -111,7 +123,7 @@ test('Integration test checksEffectsInteraction.js', function (t) {
 test('Integration test constantFunctions.js', function (t) {
   t.plan(testFiles.length)
 
-  var module = require('../../src/analysis/modules/constantFunctions')
+  var module = require('../../src/solidity-analyzer/modules/constantFunctions')
 
   var lengthCheck = {
     'KingOfTheEtherThrone.sol': 0,
@@ -133,8 +145,12 @@ test('Integration test constantFunctions.js', function (t) {
     'forgottenReturn.sol': 0,
     'selfdestruct.sol': 1,
     'deleteDynamicArray.sol': 0,
+    'deleteFromDynamicArray.sol': 0,
     'blockLevelCompare.sol': 0,
-    'intDivisionTruncate.sol': 0
+    'intDivisionTruncate.sol': 0,
+    'ERC20.sol': 0,
+    'stringBytesLength.sol': 0,
+    'forLoopIteratesOverDynamicArray.sol': 0
   }
 
   runModuleOnFiles(module, t, (file, report) => {
@@ -145,7 +161,7 @@ test('Integration test constantFunctions.js', function (t) {
 test('Integration test inlineAssembly.js', function (t) {
   t.plan(testFiles.length)
 
-  var module = require('../../src/analysis/modules/inlineAssembly')
+  var module = require('../../src/solidity-analyzer/modules/inlineAssembly')
 
   var lengthCheck = {
     'KingOfTheEtherThrone.sol': 0,
@@ -167,8 +183,12 @@ test('Integration test inlineAssembly.js', function (t) {
     'forgottenReturn.sol': 0,
     'selfdestruct.sol': 0,
     'deleteDynamicArray.sol': 0,
+    'deleteFromDynamicArray.sol': 0,
     'blockLevelCompare.sol': 0,
-    'intDivisionTruncate.sol': 0
+    'intDivisionTruncate.sol': 0,
+    'ERC20.sol': 0,
+    'stringBytesLength.sol': 0,
+    'forLoopIteratesOverDynamicArray.sol': 0
   }
 
   runModuleOnFiles(module, t, (file, report) => {
@@ -179,7 +199,7 @@ test('Integration test inlineAssembly.js', function (t) {
 test('Integration test txOrigin.js', function (t) {
   t.plan(testFiles.length)
 
-  var module = require('../../src/analysis/modules/txOrigin')
+  var module = require('../../src/solidity-analyzer/modules/txOrigin')
 
   var lengthCheck = {
     'KingOfTheEtherThrone.sol': 0,
@@ -201,8 +221,12 @@ test('Integration test txOrigin.js', function (t) {
     'forgottenReturn.sol': 0,
     'selfdestruct.sol': 0,
     'deleteDynamicArray.sol': 0,
+    'deleteFromDynamicArray.sol': 0,
     'blockLevelCompare.sol': 0,
-    'intDivisionTruncate.sol': 0
+    'intDivisionTruncate.sol': 0,
+    'ERC20.sol': 0,
+    'stringBytesLength.sol': 0,
+    'forLoopIteratesOverDynamicArray.sol': 0
   }
 
   runModuleOnFiles(module, t, (file, report) => {
@@ -213,7 +237,7 @@ test('Integration test txOrigin.js', function (t) {
 test('Integration test gasCosts.js', function (t) {
   t.plan(testFiles.length)
 
-  var module = require('../../src/analysis/modules/gasCosts')
+  var module = require('../../src/solidity-analyzer/modules/gasCosts')
 
   var lengthCheck = {
     'KingOfTheEtherThrone.sol': 2,
@@ -235,8 +259,12 @@ test('Integration test gasCosts.js', function (t) {
     'forgottenReturn.sol': 3,
     'selfdestruct.sol': 0,
     'deleteDynamicArray.sol': 2,
+    'deleteFromDynamicArray.sol': 1,
     'blockLevelCompare.sol': 1,
-    'intDivisionTruncate.sol': 1
+    'intDivisionTruncate.sol': 1,
+    'ERC20.sol': 2,
+    'stringBytesLength.sol': 1,
+    'forLoopIteratesOverDynamicArray.sol': 1
   }
 
   runModuleOnFiles(module, t, (file, report) => {
@@ -247,7 +275,7 @@ test('Integration test gasCosts.js', function (t) {
 test('Integration test similarVariableNames.js', function (t) {
   t.plan(testFiles.length)
 
-  var module = require('../../src/analysis/modules/similarVariableNames')
+  var module = require('../../src/solidity-analyzer/modules/similarVariableNames')
 
   var lengthCheck = {
     'KingOfTheEtherThrone.sol': 0,
@@ -269,8 +297,12 @@ test('Integration test similarVariableNames.js', function (t) {
     'forgottenReturn.sol': 0,
     'selfdestruct.sol': 0,
     'deleteDynamicArray.sol': 1,
+    'deleteFromDynamicArray.sol': 0,
     'blockLevelCompare.sol': 0,
-    'intDivisionTruncate.sol': 0
+    'intDivisionTruncate.sol': 0,
+    'ERC20.sol': 0,
+    'stringBytesLength.sol': 0,
+    'forLoopIteratesOverDynamicArray.sol': 0
   }
 
   runModuleOnFiles(module, t, (file, report) => {
@@ -281,7 +313,7 @@ test('Integration test similarVariableNames.js', function (t) {
 test('Integration test inlineAssembly.js', function (t) {
   t.plan(testFiles.length)
 
-  var module = require('../../src/analysis/modules/inlineAssembly')
+  var module = require('../../src/solidity-analyzer/modules/inlineAssembly')
 
   var lengthCheck = {
     'KingOfTheEtherThrone.sol': 0,
@@ -303,8 +335,12 @@ test('Integration test inlineAssembly.js', function (t) {
     'forgottenReturn.sol': 0,
     'selfdestruct.sol': 0,
     'deleteDynamicArray.sol': 0,
+    'deleteFromDynamicArray.sol': 0,
     'blockLevelCompare.sol': 0,
-    'intDivisionTruncate.sol': 0
+    'intDivisionTruncate.sol': 0,
+    'ERC20.sol': 0,
+    'stringBytesLength.sol': 0,
+    'forLoopIteratesOverDynamicArray.sol': 0
   }
 
   runModuleOnFiles(module, t, (file, report) => {
@@ -315,7 +351,7 @@ test('Integration test inlineAssembly.js', function (t) {
 test('Integration test blockTimestamp.js', function (t) {
   t.plan(testFiles.length)
 
-  var module = require('../../src/analysis/modules/blockTimestamp')
+  var module = require('../../src/solidity-analyzer/modules/blockTimestamp')
 
   var lengthCheck = {
     'KingOfTheEtherThrone.sol': 1,
@@ -337,8 +373,12 @@ test('Integration test blockTimestamp.js', function (t) {
     'forgottenReturn.sol': 0,
     'selfdestruct.sol': 0,
     'deleteDynamicArray.sol': 0,
+    'deleteFromDynamicArray.sol': 0,
     'blockLevelCompare.sol': 0,
-    'intDivisionTruncate.sol': 0
+    'intDivisionTruncate.sol': 0,
+    'ERC20.sol': 0,
+    'stringBytesLength.sol': 0,
+    'forLoopIteratesOverDynamicArray.sol': 0
   }
 
   runModuleOnFiles(module, t, (file, report) => {
@@ -349,7 +389,7 @@ test('Integration test blockTimestamp.js', function (t) {
 test('Integration test lowLevelCalls.js', function (t) {
   t.plan(testFiles.length)
 
-  var module = require('../../src/analysis/modules/lowLevelCalls')
+  var module = require('../../src/solidity-analyzer/modules/lowLevelCalls')
 
   var lengthCheck = {
     'KingOfTheEtherThrone.sol': 1,
@@ -371,8 +411,12 @@ test('Integration test lowLevelCalls.js', function (t) {
     'forgottenReturn.sol': 0,
     'selfdestruct.sol': 0,
     'deleteDynamicArray.sol': 0,
+    'deleteFromDynamicArray.sol': 0,
     'blockLevelCompare.sol': 0,
-    'intDivisionTruncate.sol': 0
+    'intDivisionTruncate.sol': 0,
+    'ERC20.sol': 0,
+    'stringBytesLength.sol': 0,
+    'forLoopIteratesOverDynamicArray.sol': 0
   }
 
   runModuleOnFiles(module, t, (file, report) => {
@@ -383,7 +427,7 @@ test('Integration test lowLevelCalls.js', function (t) {
 test('Integration test blockBlockhash.js', function (t) {
   t.plan(testFiles.length)
 
-  var module = require('../../src/analysis/modules/blockBlockhash')
+  var module = require('../../src/solidity-analyzer/modules/blockBlockhash')
 
   var lengthCheck = {
     'KingOfTheEtherThrone.sol': 0,
@@ -405,8 +449,12 @@ test('Integration test blockBlockhash.js', function (t) {
     'forgottenReturn.sol': 0,
     'selfdestruct.sol': 0,
     'deleteDynamicArray.sol': 0,
+    'deleteFromDynamicArray.sol': 0,
     'blockLevelCompare.sol': 0,
-    'intDivisionTruncate.sol': 0
+    'intDivisionTruncate.sol': 0,
+    'ERC20.sol': 0,
+    'stringBytesLength.sol': 0,
+    'forLoopIteratesOverDynamicArray.sol': 0
   }
 
   runModuleOnFiles(module, t, (file, report) => {
@@ -417,7 +465,7 @@ test('Integration test blockBlockhash.js', function (t) {
 test('Integration test noReturn.js', function (t) {
   t.plan(testFiles.length)
 
-  var module = require('../../src/analysis/modules/noReturn')
+  var module = require('../../src/solidity-analyzer/modules/noReturn')
 
   var lengthCheck = {
     'KingOfTheEtherThrone.sol': 0,
@@ -439,8 +487,12 @@ test('Integration test noReturn.js', function (t) {
     'forgottenReturn.sol': 1,
     'selfdestruct.sol': 0,
     'deleteDynamicArray.sol': 0,
+    'deleteFromDynamicArray.sol': 0,
     'blockLevelCompare.sol': 0,
-    'intDivisionTruncate.sol': 0
+    'intDivisionTruncate.sol': 0,
+    'ERC20.sol': 0,
+    'stringBytesLength.sol': 0,
+    'forLoopIteratesOverDynamicArray.sol': 0
   }
 
   runModuleOnFiles(module, t, (file, report) => {
@@ -451,7 +503,7 @@ test('Integration test noReturn.js', function (t) {
 test('Integration test selfdestruct.js', function (t) {
   t.plan(testFiles.length)
 
-  var module = require('../../src/analysis/modules/selfdestruct')
+  var module = require('../../src/solidity-analyzer/modules/selfdestruct')
 
   var lengthCheck = {
     'KingOfTheEtherThrone.sol': 0,
@@ -466,15 +518,19 @@ test('Integration test selfdestruct.js', function (t) {
     'notReentrant.sol': 0,
     'structReentrant.sol': 0,
     'thisLocal.sol': 0,
-    'globals.sol': 1,
+    'globals.sol': 2,
     'library.sol': 0,
     'transfer.sol': 0,
     'ctor.sol': 0,
     'forgottenReturn.sol': 0,
-    'selfdestruct.sol': 2,
+    'selfdestruct.sol': 3,
     'deleteDynamicArray.sol': 0,
+    'deleteFromDynamicArray.sol': 0,
     'blockLevelCompare.sol': 0,
-    'intDivisionTruncate.sol': 1
+    'ERC20.sol': 0,
+    'intDivisionTruncate.sol': 5,
+    'stringBytesLength.sol': 0,
+    'forLoopIteratesOverDynamicArray.sol': 0
   }
 
   runModuleOnFiles(module, t, (file, report) => {
@@ -485,7 +541,7 @@ test('Integration test selfdestruct.js', function (t) {
 test('Integration test guardConditions.js', function (t) {
   t.plan(testFiles.length)
 
-  var module = require('../../src/analysis/modules/guardConditions')
+  var module = require('../../src/solidity-analyzer/modules/guardConditions')
 
   var lengthCheck = {
     'KingOfTheEtherThrone.sol': 0,
@@ -507,8 +563,12 @@ test('Integration test guardConditions.js', function (t) {
     'forgottenReturn.sol': 0,
     'selfdestruct.sol': 0,
     'deleteDynamicArray.sol': 1,
+    'deleteFromDynamicArray.sol': 0,
     'blockLevelCompare.sol': 0,
-    'intDivisionTruncate.sol': 1
+    'intDivisionTruncate.sol': 1,
+    'ERC20.sol': 0,
+    'stringBytesLength.sol': 0,
+    'forLoopIteratesOverDynamicArray.sol': 0
   }
 
   runModuleOnFiles(module, t, (file, report) => {
@@ -519,7 +579,7 @@ test('Integration test guardConditions.js', function (t) {
 test('Integration test deleteDynamicArrays.js', function (t) {
   t.plan(testFiles.length)
 
-  var module = require('../../src/analysis/modules/deleteDynamicArrays')
+  var module = require('../../src/solidity-analyzer/modules/deleteDynamicArrays')
 
   var lengthCheck = {
     'KingOfTheEtherThrone.sol': 0,
@@ -541,8 +601,12 @@ test('Integration test deleteDynamicArrays.js', function (t) {
     'forgottenReturn.sol': 0,
     'selfdestruct.sol': 0,
     'deleteDynamicArray.sol': 2,
+    'deleteFromDynamicArray.sol': 0,
     'blockLevelCompare.sol': 0,
-    'intDivisionTruncate.sol': 0
+    'intDivisionTruncate.sol': 0,
+    'ERC20.sol': 0,
+    'stringBytesLength.sol': 0,
+    'forLoopIteratesOverDynamicArray.sol': 0
   }
 
   runModuleOnFiles(module, t, (file, report) => {
@@ -550,10 +614,10 @@ test('Integration test deleteDynamicArrays.js', function (t) {
   })
 })
 
-test('Integration test assignAndCompare.js', function (t) {
+test('Integration test deleteFromDynamicArray.js', function (t) {
   t.plan(testFiles.length)
 
-  var module = require('../../src/analysis/modules/assignAndCompare')
+  var module = require('../../src/solidity-analyzer/modules/deleteFromDynamicArray')
 
   var lengthCheck = {
     'KingOfTheEtherThrone.sol': 0,
@@ -575,8 +639,50 @@ test('Integration test assignAndCompare.js', function (t) {
     'forgottenReturn.sol': 0,
     'selfdestruct.sol': 0,
     'deleteDynamicArray.sol': 0,
+    'deleteFromDynamicArray.sol': 1,
+    'blockLevelCompare.sol': 0,
+    'intDivisionTruncate.sol': 0,
+    'ERC20.sol': 0,
+    'stringBytesLength.sol': 0,
+    'forLoopIteratesOverDynamicArray.sol': 0
+  }
+
+  runModuleOnFiles(module, t, (file, report) => {
+    t.equal(report.length, lengthCheck[file], `${file} has right amount of deleteFromDynamicArray warnings`)
+  })
+})
+
+test('Integration test assignAndCompare.js', function (t) {
+  t.plan(testFiles.length)
+
+  var module = require('../../src/solidity-analyzer/modules/assignAndCompare')
+
+  var lengthCheck = {
+    'KingOfTheEtherThrone.sol': 0,
+    'assembly.sol': 0,
+    'ballot.sol': 0,
+    'ballot_reentrant.sol': 0,
+    'ballot_withoutWarnings.sol': 0,
+    'cross_contract.sol': 0,
+    'inheritance.sol': 0,
+    'modifier1.sol': 0,
+    'modifier2.sol': 0,
+    'notReentrant.sol': 0,
+    'structReentrant.sol': 0,
+    'thisLocal.sol': 0,
+    'globals.sol': 0,
+    'library.sol': 0,
+    'transfer.sol': 0,
+    'ctor.sol': 0,
+    'forgottenReturn.sol': 0,
+    'selfdestruct.sol': 0,
+    'deleteDynamicArray.sol': 0,
+    'deleteFromDynamicArray.sol': 0,
     'blockLevelCompare.sol': 8,
-    'intDivisionTruncate.sol': 0
+    'intDivisionTruncate.sol': 0,
+    'ERC20.sol': 0,
+    'stringBytesLength.sol': 0,
+    'forLoopIteratesOverDynamicArray.sol': 0
   }
 
   runModuleOnFiles(module, t, (file, report) => {
@@ -587,7 +693,7 @@ test('Integration test assignAndCompare.js', function (t) {
 test('Integration test intDivisionTruncate.js', function (t) {
   t.plan(testFiles.length)
 
-  var module = require('../../src/analysis/modules/intDivisionTruncate')
+  var module = require('../../src/solidity-analyzer/modules/intDivisionTruncate')
 
   var lengthCheck = {
     'KingOfTheEtherThrone.sol': 0,
@@ -609,12 +715,130 @@ test('Integration test intDivisionTruncate.js', function (t) {
     'forgottenReturn.sol': 0,
     'selfdestruct.sol': 0,
     'deleteDynamicArray.sol': 0,
+    'deleteFromDynamicArray.sol': 0,
     'blockLevelCompare.sol': 0,
-    'intDivisionTruncate.sol': 2
+    'intDivisionTruncate.sol': 2,
+    'ERC20.sol': 0,
+    'stringBytesLength.sol': 0,
+    'forLoopIteratesOverDynamicArray.sol': 0
   }
 
   runModuleOnFiles(module, t, (file, report) => {
     t.equal(report.length, lengthCheck[file], `${file} has right amount of intDivisionTruncate warnings`)
+  })
+})
+
+test('Integration test erc20Decimal.js', function (t) {
+  t.plan(testFiles.length)
+
+  var module = require('../../src/solidity-analyzer/modules/erc20Decimals')
+
+  var lengthCheck = {
+    'KingOfTheEtherThrone.sol': 0,
+    'assembly.sol': 0,
+    'ballot.sol': 0,
+    'ballot_reentrant.sol': 0,
+    'ballot_withoutWarnings.sol': 0,
+    'cross_contract.sol': 0,
+    'inheritance.sol': 0,
+    'modifier1.sol': 0,
+    'modifier2.sol': 0,
+    'notReentrant.sol': 0,
+    'structReentrant.sol': 0,
+    'thisLocal.sol': 0,
+    'globals.sol': 0,
+    'library.sol': 0,
+    'transfer.sol': 0,
+    'ctor.sol': 0,
+    'forgottenReturn.sol': 0,
+    'selfdestruct.sol': 0,
+    'deleteDynamicArray.sol': 0,
+    'deleteFromDynamicArray.sol': 0,
+    'blockLevelCompare.sol': 0,
+    'intDivisionTruncate.sol': 0,
+    'ERC20.sol': 1,
+    'stringBytesLength.sol': 0,
+    'forLoopIteratesOverDynamicArray.sol': 0
+  }
+
+  runModuleOnFiles(module, t, (file, report) => {
+    t.equal(report.length, lengthCheck[file], `${file} has right amount of erc20Decimals warnings`)
+  })
+})
+
+test('Integration test stringBytesLength.js', function (t) {
+  t.plan(testFiles.length)
+
+  var module = require('../../src/solidity-analyzer/modules/stringBytesLength')
+
+  var lengthCheck = {
+    'KingOfTheEtherThrone.sol': 0,
+    'assembly.sol': 0,
+    'ballot.sol': 0,
+    'ballot_reentrant.sol': 0,
+    'ballot_withoutWarnings.sol': 0,
+    'cross_contract.sol': 0,
+    'inheritance.sol': 0,
+    'modifier1.sol': 0,
+    'modifier2.sol': 0,
+    'notReentrant.sol': 0,
+    'structReentrant.sol': 0,
+    'thisLocal.sol': 0,
+    'globals.sol': 0,
+    'library.sol': 0,
+    'transfer.sol': 0,
+    'ctor.sol': 0,
+    'forgottenReturn.sol': 0,
+    'selfdestruct.sol': 0,
+    'deleteDynamicArray.sol': 0,
+    'deleteFromDynamicArray.sol': 0,
+    'blockLevelCompare.sol': 0,
+    'intDivisionTruncate.sol': 0,
+    'ERC20.sol': 0,
+    'stringBytesLength.sol': 1,
+    'forLoopIteratesOverDynamicArray.sol': 0
+  }
+
+  runModuleOnFiles(module, t, (file, report) => {
+    t.equal(report.length, lengthCheck[file], `${file} has right amount of stringBytesLength warnings`)
+  })
+})
+
+test('Integration test forLoopIteratesOverDynamicArray.js', function (t) {
+  t.plan(testFiles.length)
+
+  var module = require('../../src/solidity-analyzer/modules/forLoopIteratesOverDynamicArray')
+
+  var lengthCheck = {
+    'KingOfTheEtherThrone.sol': 0,
+    'assembly.sol': 0,
+    'ballot.sol': 2,
+    'ballot_reentrant.sol': 1,
+    'ballot_withoutWarnings.sol': 0,
+    'cross_contract.sol': 0,
+    'inheritance.sol': 0,
+    'modifier1.sol': 0,
+    'modifier2.sol': 0,
+    'notReentrant.sol': 0,
+    'structReentrant.sol': 0,
+    'thisLocal.sol': 0,
+    'globals.sol': 0,
+    'library.sol': 0,
+    'transfer.sol': 0,
+    'ctor.sol': 0,
+    'forgottenReturn.sol': 0,
+    'selfdestruct.sol': 0,
+    'deleteDynamicArray.sol': 0,
+    'deleteFromDynamicArray.sol': 0,
+    'blockLevelCompare.sol': 0,
+    'intDivisionTruncate.sol': 0,
+    'ERC20.sol': 0,
+    'stringBytesLength.sol': 0,
+    'forLoopIteratesOverDynamicArray.sol': 1
+  }
+
+  runModuleOnFiles(module, t, (file, report) => {
+    t.equal(report.length, lengthCheck[file], `${file} has right amount of forLoopIteratesOverDynamicArray warnings`)
   })
 })
 
